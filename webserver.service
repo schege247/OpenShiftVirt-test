@@ -1,8 +1,10 @@
-- name: virtCommands
-  value: |-
-    --run-command "mkdir -p /var/www/html"
-    --upload $(workspaces.data01.path)/index.html:/var/www/html/index.html
-    --upload $(workspaces.data01.path)/webserver.service:/etc/systemd/system/webserver.service
-    --run-command "systemctl stop firewalld || true"
-    --install python3
-    --run-command "systemctl enable webserver.service"
+[Unit]
+Description=Simple Python HTTP Server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 -m http.server 80 --directory /var/www/html
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
