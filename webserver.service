@@ -1,0 +1,8 @@
+- name: virtCommands
+  value: |-
+    --run-command "mkdir -p /var/www/html"
+    --upload $(workspaces.data01.path)/index.html:/var/www/html/index.html
+    --upload $(workspaces.data01.path)/webserver.service:/etc/systemd/system/webserver.service
+    --run-command "systemctl stop firewalld || true"
+    --install python3
+    --run-command "systemctl enable webserver.service"
